@@ -15,17 +15,34 @@ def create_db():
     conn.close()
 
 def add_expense(amount, category, description, date):
+    if amount <= 0:
+        print("Invalid amount! Amount must be greater than 0.")
+        return False
+
+    if not category.strip():
+        print("Invalid category! Category cannot be empty.")
+        return False
+
+    if not description.strip():
+        print("Invalid description! Description cannot be empty.")
+        return False
+
     try:
-        formatted_date = datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
+        datetime.strptime(date, "%Y-%m-%d")
     except ValueError:
         print("Invalid date format! Please use YYYY-MM-DD.")
-        return
-    
+        return False
+
     conn = sqlite3.connect("expenses.db")
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO expenses (amount, category, description, date) VALUES (?, ?, ?, ?)", (amount, category, description, formatted_date))
+    cursor.execute(
+        "INSERT INTO expenses (amount, category, description, date) VALUES (?, ?, ?, ?)",
+        (amount, category.strip(), description.strip(), date),
+    )
     conn.commit()
     conn.close()
+
+    return True
 
 def get_all_expenses():
     conn = sqlite3.connect("expenses.db")
@@ -48,8 +65,13 @@ def delete_expense(expense_id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM expenses WHERE id = ?", (expense_id,))
     conn.commit()
+
+    if cursor.rowcount > 0:
+        print("Expense deleted successfully!")
+    else:
+        print(f"No expense found with ID {expense_id}.")
+
     conn.close()
-    print("Expense deleted successfully!")
 
 def plot_expense_graph(month, year):
     data = get_monthly_summary(month, year)
@@ -80,10 +102,13 @@ while True:
             category = input("Enter expense category: ")
             description = input("Enter expense description: ")
             date = input("Enter expense date (YYYY-MM-DD): ")
-            add_expense(amount, category, description, date)
-            print("Expense added successfully!\n")
+
+            if add_expense(amount, category, description, date):
+                print("Expense added successfully!")
+            else:
+                print("Expense was not added.")
         except ValueError:
-            print("Invalid input. Please enter a valid amount.\n")
+            print("Invalid input. Please enter a valid amount.")
     
     elif choice == "2":
         expenses = get_all_expenses()
