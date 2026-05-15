@@ -1,56 +1,148 @@
-# Expense Tracker
+<div align="center">
 
-## Overview
-This is a simple Expense Tracker application built using Python and SQLite. It allows users to add, view, and delete expenses, view a monthly summary, and visualize expenses using a pie chart.
+# Expense Tracker System
+   
+</div>
+
+A simple command-line Expense Tracker built with Python and SQLite.
+
+This application helps users record, view, delete, and summarize their expenses. Expense data is stored locally in a SQLite database.
 
 ## Features
-✅ Add expenses with amount, category, description, and date.
-✅ View all recorded expenses.
-✅ Delete an expense by ID.
-✅ View a monthly summary of expenses.
-✅ Pie chart visualization of expenses for better insights.
+
+- Add new expenses with amount, category, description, and date
+- View all saved expenses
+- Delete expenses by ID
+- View a monthly expense summary by category
+- Store data locally using SQLite
+- Validate user input before saving expenses
+
+## Requirements
+
+- Python 3.x
+- matplotlib
 
 ## Installation
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/expense-tracker.git
-   cd expense-tracker
-   ```
-2. Create a virtual environment and activate it:
-   ```sh
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
-3. Install dependencies:
-   ```sh
-   pip install -r requirements.txt
-   ```
-4. Run the script:
-   ```sh
-   python main.py
-   ```
 
-## Usage
-1. Run the script and choose an option from the menu.
-2. Enter details when prompted.
-3. View expenses and analyze your spending patterns.
+### 1. Clone the repository
 
-## Flowchart
-```mermaid
-graph TD;
-    Start -->|Choose Option| Menu[Main Menu]
-    Menu -->|1. Add Expense| AddExpense[Enter Details]
-    AddExpense -->|Save to DB| Menu
-    Menu -->|2. View Expenses| ViewExpenses[Show All Expenses]
-    ViewExpenses --> Menu
-    Menu -->|3. Delete Expense| DeleteExpense[Enter ID to Delete]
-    DeleteExpense -->|Remove from DB| Menu
-    Menu -->|4. View Monthly Summary| MonthlySummary[Show Summary and Pie Chart]
-    MonthlySummary --> Menu
-    Menu -->|5. Exit| End
+```bash
+git clone https://github.com/codewithdhruba01/ExpenseTrackerSystem.git
+cd ExpenseTrackerSystem
+````
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
 ```
 
-## Future Enhancements
-- Add user authentication.
-- Export expense reports in CSV format.
-- Implement a web-based UI for better accessibility.
+### 3. Activate the virtual environment
+
+On Windows CMD:
+
+```bash
+.venv\Scripts\activate
+```
+
+On Windows PowerShell:
+
+```bash
+.venv\Scripts\Activate.ps1
+```
+
+On macOS/Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+### 4. Install dependencies
+
+```bash
+pip install matplotlib
+```
+
+## Usage
+
+Run the application:
+
+```bash
+python expense.py
+```
+
+After running the app, you will see this menu:
+
+```text
+Expense Tracker
+1. Add Expense
+2. View Expenses
+3. Delete Expense
+4. View Monthly Summary
+5. Exit
+Enter your choice:
+```
+
+## Adding an Expense
+
+When adding an expense, enter the following information:
+
+```text
+Enter expense amount:
+Enter expense category:
+Enter expense description:
+Enter expense date (YYYY-MM-DD):
+```
+
+Example:
+
+```text
+Enter expense amount: 100
+Enter expense category: Food
+Enter expense description: Lunch
+Enter expense date (YYYY-MM-DD): 2026-05-13
+Expense added successfully!
+```
+
+## Input Rules
+
+When adding an expense:
+
+* Amount must be greater than `0`
+* Category cannot be empty
+* Description cannot be empty
+* Date must follow the `YYYY-MM-DD` format
+
+Example of a valid date:
+
+```text
+2026-05-13
+```
+
+## Database
+
+The application uses SQLite for local data storage.
+
+When you run the app, it automatically creates a database file named:
+
+```text
+expenses.db
+```
+
+This file stores your expense records locally.
+
+## Project Structure
+
+```text
+ExpenseTrackerSystem/
+│
+├── expense.py      # Main application file
+├── README.md       # Project documentation
+└── expenses.db     # Local database file, created automatically after running the app
+```
+
+## Notes
+
+* Do not manually create the database file; the app creates it automatically.
+* The database file is for local use and should usually not be committed to GitHub.
+* If you want to reset your local data, delete `expenses.db` and run the app again.
